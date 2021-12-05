@@ -139,60 +139,63 @@ const condenseDuplicates = (arr) =>{
 
 
 
-
-
-//this will grab the argument passed in with the program from the console (for FIFO and HIFO)
-// console.log(process.argv)
-
 //*************************************************************************************************
 // FIFO logic
 // HIFO logic
 
-const hifoFifo = ()=>{
-if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
-    console.log('HIFO')
-    let hifoBuys = condenseDuplicates(buys)
-    let hifoSells = condenseDuplicates(sells)
-    hifoBuys.sort((a, b) => a.price - b.price)
+const sellOrder = (accountingMethod)=>{
+    let condBuys = condenseDuplicates(buys)
+    let condSells = condenseDuplicates(sells)
+    if(accountingMethod === 'price'){
+        condBuys.sort((a, b) => a.price - b.price)
+    }else if( accountingMethod === 'date'){
+        condBuys.sort((a, b) => a.date - b.date)
+    }
     let sellQuantity = 0
-    for(i=0; i<hifoSells.length; i++){
-      let addQty = hifoSells[i].quantity
+    for(i=0; i<condSells.length; i++){
+      let addQty = condSells[i].quantity
       sellQuantity = sellQuantity + addQty
     }
     let x = 0
-    if(sellQuantity === hifoBuys[x].quantity){
-        hifoBuys.splice(x, 1)
-            return hifoBuys
-    }else if(sellQuantity < hifoBuys[x].quantity){
-        let remQuant = hifoBuys[x].quantity - sellQuantity 
-        hifoBuys[x].quantity = remQuant
-            return hifoBuys
-    }else if(sellQuantity > hifoBuys[x].quantity){
+    if(sellQuantity === condBuys[x].quantity){
+        condBuys.splice(x, 1)
+            return condBuys
+    }else if(sellQuantity < condBuys[x].quantity){
+        let remQuant = condBuys[x].quantity - sellQuantity 
+        condBuys[x].quantity = remQuant
+            return condBuys
+    }else if(sellQuantity > condBuys[x].quantity){
         let y = x + 1
-        let quantSum = hifoBuys[x].quantity + hifoBuys[y].quantity
+        let quantSum = condBuys[x].quantity + condBuys[y].quantity
         if(sellQuantity < quantSum){
             y++
-            quantSum = quantSum + hifoBuys[y].quantity
+            quantSum = quantSum + condBuys[y].quantity
         }
         let remQuant = quantSum - sellQuantity
-        hifoBuys[y].quantity = remQuant
-        hifoBuys.splice(0, y)
-            return hifoBuys
-
+        condBuys[y].quantity = remQuant
+        condBuys.splice(0, y)
+            return condBuys
     }
-    
+}
+
+//this will grab the argument passed in with the program from the console (for FIFO and HIFO)
+// console.log(process.argv)
+const hifoOrFifo = ()=>{
+if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
+    console.log('HIFO')
+    return sellOrder('price')
+
 }else if (process.argv.includes("FIFO") || process.argv.includes('fifo')){
     console.log('FIFO')
-    let fifoBuys = condenseDuplicates(buys)
-    let fifoSells = condenseDuplicates(sells)
+    return sellOrder('date')
 }else{
-    console.log('log error for incompatible argument')
+
+    return console.log('log error for incompatible argument')
 }
 
 }
 
-
-console.log(hifoFifo())
+console.log(hifoOrFifo())
 
 //*************************************************************************************************
 
