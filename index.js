@@ -203,12 +203,8 @@ const formatOutput =()=>{
     for(i=0; i<output.length; i++){
       delete output[i].type
       let price = output[i].price
-      let priceLength = price.toString().length
-      console.log(priceLength)
       output[i].price = price.toFixed(2)
       let quantity = output[i].quantity
-      let quantityLength = quantity.toString().length
-      console.log(quantityLength)
       output[i].quantity = quantity.toFixed(8)
     }
 
