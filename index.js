@@ -51,18 +51,20 @@ class Lot {
   }
 
 
-//dummy data
+//hardcode dummy data
 
 const order1 = new Lot(20211201, 1000, 'buy', 1)
 
 const order2 = new Lot(20211202, 2000, 'buy', 1)
 
-const order3 = new Lot(20211202, 2200, 'sell', 1)
+const order3 = new Lot(20211202, 2200, 'sell', 2)
 
 const order4 = new Lot(20211201, 3000, 'buy', 1)
 
+const order5 = new Lot(20211125, 5000, 'buy', 1)
 
-const buys = [order1, order2, order4]
+
+const buys = [order1, order2, order4, order5]
 const sells = [order3]
 
 
@@ -134,7 +136,6 @@ const condenseDuplicates = (arr) =>{
 }
 
 
-console.log(condenseDuplicates(buys))
 
 
 
@@ -147,15 +148,39 @@ console.log(condenseDuplicates(buys))
 // FIFO logic
 // HIFO logic
 
+const hifoFifo = ()=>{
 if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
     console.log('HIFO')
-    // let hifoBuys = condenseDuplicates(buys)
-    // let hifoSells = condenseDuplicates(sells)
-    // hifoBuys.sort((a, b) => a.price - b.price)
-    // for(i=0; i<hifoSells.length; i++){
+    let hifoBuys = condenseDuplicates(buys)
+    let hifoSells = condenseDuplicates(sells)
+    hifoBuys.sort((a, b) => a.price - b.price)
+    let sellQuantity = 0
+    for(i=0; i<hifoSells.length; i++){
+      let addQty = hifoSells[i].quantity
+      sellQuantity = sellQuantity + addQty
+    }
+    let x = 0
+    if(sellQuantity === hifoBuys[x].quantity){
+        hifoBuys.splice(x, 1)
+            return hifoBuys
+    }else if(sellQuantity < hifoBuys[x].quantity){
+        let remQuant = hifoBuys[x].quantity - sellQuantity 
+        hifoBuys[x].quantity = remQuant
+            return hifoBuys
+    }else if(sellQuantity > hifoBuys[x].quantity){
+        let y = x + 1
+        let quantSum = hifoBuys[x].quantity + hifoBuys[y].quantity
+        if(sellQuantity < quantSum){
+            y++
+            quantSum = quantSum + hifoBuys[y].quantity
+        }
+        let remQuant = quantSum - sellQuantity
+        hifoBuys[y].quantity = remQuant
+        hifoBuys.splice(0, y)
+            return hifoBuys
 
-    // }
-    // console.log(totalSell)
+    }
+    
 }else if (process.argv.includes("FIFO") || process.argv.includes('fifo')){
     console.log('FIFO')
     let fifoBuys = condenseDuplicates(buys)
@@ -163,6 +188,11 @@ if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
 }else{
     console.log('log error for incompatible argument')
 }
+
+}
+
+
+console.log(hifoFifo())
 
 //*************************************************************************************************
 
