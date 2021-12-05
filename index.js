@@ -121,12 +121,15 @@ const condenseDuplicates = (arr) =>{
         }else{
             if(arr[i].date === arr[x].date){  
                 let weight = ((arr[i].price * arr[i].quantity) + (arr[x].price * arr[x].quantity))
-                let quantity = (arr[i].quantity + arr[x].quantity)
-                let weightedAvg = weight/quantity
-                let orderType = arr[i].type
-                let newOrder = new Lot(arr[i].date, weightedAvg, orderType, quantity )
-                arr.splice(i, 2)
-                arr.push(newOrder)
+                let newQuantity = (arr[i].quantity + arr[x].quantity)
+                let weightedAvg = weight/newQuantity
+                // let orderType = arr[i].type
+                arr[i].quantity = newQuantity
+                arr[i].price = weightedAvg
+
+                // let newOrder = new Lot(arr[i].date, weightedAvg, orderType, quantity )
+                arr.splice(x, 1)
+                // arr.push(newOrder)
                 arr.sort((a, b) => a.date - b.date);
                 i = 0
             }
@@ -136,7 +139,7 @@ const condenseDuplicates = (arr) =>{
 }
 
 
-
+console.log(condenseDuplicates(buys))
 
 
 //*************************************************************************************************
@@ -195,16 +198,10 @@ if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
 
 }
 
-console.log(hifoOrFifo())
+// console.log(hifoOrFifo())
 
 //*************************************************************************************************
 
-
-//make a constructor class for an order
-
-//each time an order is placed, create a new object and append it to the buy or sell array
-
-//test each new order for overlapping date, if match, run logic to find weighted average price and collapse into a single ID
 
 
 //need error handler
