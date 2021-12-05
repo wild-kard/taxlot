@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "nexe",
+    "FIFO": "node index.js FIFO",
+    "HIFO": "node index.js HIFO"
   },
   "repository": {
     "type": "git",
@@ -18,5 +21,9 @@
   "homepage": "https://github.com/wild-kard/taxlot#readme",
   "dependencies": {
     "readline": "^1.3.0"
+  },
+  "devDependencies": {
+    "nexe": "^4.0.0-beta.19"
   }
-}
+  }
+
