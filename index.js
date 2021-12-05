@@ -110,32 +110,31 @@ const sells = [order3]
 
 
 
-const condenseDuplicates = (buyArray) =>{
-    buyArray.sort((a, b) => a.date - b.date);
-    for(i=0; i<buyArray.length; i++){
+const condenseDuplicates = (arr) =>{
+    arr.sort((a, b) => a.date - b.date);
+    for(i=0; i<arr.length; i++){
         let x = i + 1
-        if(x >= buyArray.length){
+        if(x >= arr.length){
            x = 0
         }else{
-            if(buyArray[i].date === buyArray[x].date){  
-                let weight = ((buyArray[i].price * buyArray[i].quantity) + (buyArray[x].price * buyArray[x].quantity))
-                let quantity = (buyArray[i].quantity + buyArray[x].quantity)
+            if(arr[i].date === arr[x].date){  
+                let weight = ((arr[i].price * arr[i].quantity) + (arr[x].price * arr[x].quantity))
+                let quantity = (arr[i].quantity + arr[x].quantity)
                 let weightedAvg = weight/quantity
-                let orderType = buyArray[i].type
-                let newOrder = new Lot(buyArray[i].date, weightedAvg, orderType, quantity )
-                buyArray.splice(i, 2)
-                buyArray.push(newOrder)
-                buyArray.sort((a, b) => a.date - b.date);
+                let orderType = arr[i].type
+                let newOrder = new Lot(arr[i].date, weightedAvg, orderType, quantity )
+                arr.splice(i, 2)
+                arr.push(newOrder)
+                arr.sort((a, b) => a.date - b.date);
                 i = 0
             }
         }
     }
-    return buyArray
+    return arr
 }
 
 
-
-
+console.log(condenseDuplicates(buys))
 
 
 
@@ -150,13 +149,13 @@ const condenseDuplicates = (buyArray) =>{
 
 if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
     console.log('HIFO')
-    let hifoBuys = condenseDuplicates(buys)
-    let hifoSells = condenseDuplicates(sells)
-    hifoBuys.sort((a, b) => a.price - b.price)
-    for(i=0; i<hifoSells.length; i++){
+    // let hifoBuys = condenseDuplicates(buys)
+    // let hifoSells = condenseDuplicates(sells)
+    // hifoBuys.sort((a, b) => a.price - b.price)
+    // for(i=0; i<hifoSells.length; i++){
 
-    }
-    console.log(totalSell)
+    // }
+    // console.log(totalSell)
 }else if (process.argv.includes("FIFO") || process.argv.includes('fifo')){
     console.log('FIFO')
     let fifoBuys = condenseDuplicates(buys)
