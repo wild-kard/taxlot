@@ -235,4 +235,6 @@ module.exports = {
     sellOrder,
     condenseDuplicates,
     genId,
+    buys,
+    sells,
 }

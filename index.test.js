@@ -10,13 +10,19 @@ const expectCondense = [{id:1, date:20211201, price:1100, type:'buy', quantity:2
 
 describe('check that buy and sell arrays contain data', ()=>{
     test('checks that buy array contains data', ()=>{
-
+        expect(utils.buys).not.toBeNull()
+    })
+    test('checks that sell array contains data', ()=>{
+        expect(utils.sells).not.toBeNull()
     })
 })
 
+
 describe('check that a new lot is given a sequential id', ()=>{
     test('check new lot ID', ()=>{
-        
+        let testId = new utils.Lot(20211205, 69420, 'buy', 1)
+        expect(testId.id).toBeGreaterThan(utils.buys.length + utils.sells.length)
+
     })
 })
 
