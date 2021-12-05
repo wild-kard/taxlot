@@ -106,8 +106,6 @@ const sells = [order3]
 //   });
 
 
-//template for stdout
-// process.stdout.write('this is an output')
 
 
 
@@ -139,7 +137,6 @@ const condenseDuplicates = (arr) =>{
 }
 
 
-console.log(condenseDuplicates(buys))
 
 
 //*************************************************************************************************
@@ -198,7 +195,31 @@ if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
 
 }
 
-// console.log(hifoOrFifo())
+
+
+const formatOutput =()=>{
+    let output = hifoOrFifo()
+
+    for(i=0; i<output.length; i++){
+      delete output[i].type
+      let price = output[i].price
+      let priceLength = price.toString().length
+      console.log(priceLength)
+      output[i].price = price.toFixed(2)
+      let quantity = output[i].quantity
+      let quantityLength = quantity.toString().length
+      console.log(quantityLength)
+      output[i].quantity = quantity.toFixed(8)
+    }
+
+        return output
+}
+
+
+console.log(formatOutput())
+
+//template for stdout
+// process.stdout.write(formatOutput())
 
 //*************************************************************************************************
 
