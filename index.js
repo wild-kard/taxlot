@@ -136,6 +136,7 @@ const condenseDuplicates = (arr) =>{
     return arr
 }
 
+console.log(condenseDuplicates(buys))
 
 
 
@@ -180,12 +181,14 @@ const sellOrder = (accountingMethod)=>{
 
 //this will grab the argument passed in with the program from the console (for FIFO and HIFO)
 // console.log(process.argv)
-const hifoOrFifo = ()=>{
-if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
+let accountingChecker = process.argv
+console.log(accountingChecker)
+const hifoOrFifo = (check)=>{
+if(check.includes("HIFO") || check.includes("hifo")){
     console.log('HIFO')
     return sellOrder('price')
 
-}else if (process.argv.includes("FIFO") || process.argv.includes('fifo')){
+}else if (check.includes("FIFO") || check.includes('fifo')){
     console.log('FIFO')
     return sellOrder('date')
 }else{
@@ -198,8 +201,7 @@ if(process.argv.includes("HIFO") || process.argv.includes("hifo")){
 
 
 const formatOutput =()=>{
-    let output = hifoOrFifo()
-
+    let output = hifoOrFifo(accountingChecker)
     for(i=0; i<output.length; i++){
       delete output[i].type
       let price = output[i].price
@@ -223,6 +225,14 @@ console.log(formatOutput())
 
 //need error handler
 
-//need tests & script
+//need tests
 
-//need exe and readme
+
+module.exports = {
+    formatOutput,
+    Lot,
+    hifoOrFifo,
+    sellOrder,
+    condenseDuplicates,
+    genId,
+}

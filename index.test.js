@@ -1,13 +1,35 @@
 const utils = require('./index.js')
 
-describe('check that buy and sell arrays contain data')
+const testBuys = [{id:1, date:20211201, price:1000, type:'buy', quantity:1 },
+{id:2, date:20211201, price:1200, type:'buy', quantity:1 },
+{id:3, date:20211202, price:5000, type:'buy', quantity:1 }]
+
+const expectCondense = [{id:1, date:20211201, price:1100, type:'buy', quantity:2},
+{id:3, date:20211202, price:5000, type:'buy', quantity:1 }]
 
 
-describe('buy and sell orders must be properly formatted')
+describe('check that buy and sell arrays contain data', ()=>{
+    test('checks that buy array contains data', ()=>{
 
-describe('sell order cannot exceed cummulative bought value')
+    })
+})
 
-describe('buy or sell orders on the same date are condensed to one lot')
+describe('check that a new lot is given a sequential id', ()=>{
+    test('check new lot ID', ()=>{
+        
+    })
+})
+
+describe('sell order cannot exceed cummulative bought value', ()=>{
+
+})
+
+describe('buy or sell orders on the same date are condensed to one lot', ()=>{
+    test('2 buy orders from the same date are condensed to one order', ()=>{
+        
+        expect(utils.condenseDuplicates(testBuys)).toEqual(expectCondense)
+    })
+})
 
 
 
@@ -26,7 +48,10 @@ describe('HIFO and FIFO', ()=>{
 
     })
     test('FIFO removes oldest date lot first', ()=>{
-        
+
     })
 })
 
+describe('sells successfully carry over to successive lots if quantity exceeds first lot chosen',()=>{
+
+})
