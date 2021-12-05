@@ -66,8 +66,8 @@ const buys = [order1, order2, order4]
 const sells = [order3]
 
 
-console.log(buys)
-console.log(sells)
+// console.log(buys)
+// console.log(sells)
 
 
 
@@ -109,48 +109,55 @@ const sortOrders = ()=>{
 
 
 
-//check to see if array of buys and sells contains duplicates
-var buyArr = buys.map(function(item){ return item.name });
-var isBuyDuplicates = buyArr.some(function(item, idx){ 
-    return buyArr.indexOf(item) != idx 
-})
 
-
-var sellArr = sells.map(function(item){ return item.name });
-var isSellDuplicates = sellArr.some(function(item, idx){ 
-    return sellArr.indexOf(item) != idx 
-})
-
-
-if(isBuyDuplicates == true){
-    let duplicateBuyIndexes = []
-    let nonBuyDuplicates = []
+const condenseBuyDuplicates = (buyArray) =>{
+    buyArray.sort((a, b) => a.date - b.date);
+    for(i=0; i<buyArray.length; i++){
+        let x = i + 1
+        if(x >= buyArray.length){
+           x = 0
+        }else{
+            if(buyArray[i].date === buyArray[x].date){  
+                let weight = ((buyArray[i].price * buyArray[i].quantity) + (buyArray[x].price * buyArray[x].quantity))
+                let quantity = (buyArray[i].quantity + buyArray[x].quantity)
+                let weightedAvg = weight/quantity
+                let newOrder = new Lot(buyArray[i].date, weightedAvg, 'buy', quantity )
+                buyArray.splice(i, 2)
+                buyArray.push(newOrder)
+                buyArray.sort((a, b) => a.date - b.date);
+                i = 0
+            }
+        }
+    }
+    return buyArray
 }
 
-if(isSellDuplicates == true){
-    let duplicateSellIndexes = []
-    let nonSellDuplicates = []
+const condenseSellDuplicates = (sellArray) =>{
+    sellArray.sort((a, b) => a.date - b.date);
+    for(i=0; i<sellArray.length; i++){
+        let x = i + 1
+        if(x >= sellArray.length){
+           x = 0
+        }else{
+            if(sellArray[i].date === sellArray[x].date){  
+                let weight = ((sellArray[i].price * sellArray[i].quantity) + (sellArray[x].price * sellArray[x].quantity))
+                let quantity = (sellArray[i].quantity + sellArray[x].quantity)
+                let weightedAvg = weight/quantity
+                let newOrder = new Lot(sellArray[i].date, weightedAvg, 'sell', quantity )
+                sellArray.splice(i, 2)
+                sellArray.push(newOrder)
+                sellArray.sort((a, b) => a.date - b.date);
+                i = 0
+            }
+        }
+    }
+    return sellArray
 }
 
-
-
-// const condenseBuyDuplicates = (buyArray) =>{
-    // for(i=0; i<buyArray.length; i++){
-    //     if(buyArray[i].date === buyArray[i+1].date){
-    //         const weight = (buyArray[i].price * buyArray[i].quantity + buyArray[i+1].price * buyArray[i+1].quantity)
-    //         const quantity = (buyArray[i].quantity + buyArray[i+1].quantity)
-    //         const weightedAvg = weight/quantity
-    //         const newOrder = new Lot(buyArray[i].date, quantity, 'buy', weightedAvg)
-    //         buyArray.splice(i, 2)
-    //         buyArray.push(newOrder)
-    //         i = 0
-    //     }else{
-    //         next()
-    //     }
-    // }
-
-// }
-
+console.log(buys)
+console.log(condenseBuyDuplicates(buys))
+// condenseSellDuplicates(sells)
+// console.log(sellArr)
 
 
 
