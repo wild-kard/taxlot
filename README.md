@@ -9,7 +9,7 @@ $ npm i
 to run the automatic tests from the terminal:
 $ npm run test
 
-The compile the file as an executable:
+To compile the file as an executable:
 
 1. clone the repository and open the directory in a terminal
 2. in the terminal type:
@@ -17,4 +17,4 @@ The compile the file as an executable:
 3. once the dependency has finished installing type:
     $ nexe 
 4. after the process finishes type:
-    $nexe --build
+    $ nexe --build
