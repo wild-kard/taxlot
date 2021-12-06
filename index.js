@@ -31,7 +31,7 @@
 
 //internal ID incrementor function for Lot class
 genId = (function(){ 
-    var id = 0; 
+    var id = 1; 
     return function(){  
       return id++ 
     } 
@@ -55,13 +55,13 @@ class Lot {
 
 const order1 = new Lot(20211201, 1000, 'buy', 1)
 
-const order2 = new Lot(20211202, 2000, 'buy', 1)
+const order2 = new Lot(20211202, 5000, 'buy', 1)
 
-const order3 = new Lot(20211202, 2200, 'sell', 2)
+const order3 = new Lot(20211202, 2200, 'sell', 1.5)
 
 const order4 = new Lot(20211201, 3000, 'buy', 1)
 
-const order5 = new Lot(20211125, 5000, 'buy', 1)
+const order5 = new Lot(20211125, 500, 'buy', 1)
 
 
 const buys = [order1, order2, order4, order5]
@@ -144,37 +144,54 @@ console.log(condenseDuplicates(buys))
 // FIFO logic
 // HIFO logic
 
+let condBuys = condenseDuplicates(buys)
+let condSells = condenseDuplicates(sells)
+
 const sellOrder = (accountingMethod)=>{
-    let condBuys = condenseDuplicates(buys)
-    let condSells = condenseDuplicates(sells)
     if(accountingMethod === 'price'){
-        condBuys.sort((a, b) => a.price - b.price)
+        condBuys.sort((a, b) => b.price - a.price)
+        console.log('sorted by price')
+        console.log(condBuys)
     }else if( accountingMethod === 'date'){
         condBuys.sort((a, b) => a.date - b.date)
     }
-    let sellQuantity = 0
+    let sellQtyTotal = 0
     for(i=0; i<condSells.length; i++){
       let addQty = condSells[i].quantity
-      sellQuantity = sellQuantity + addQty
+      sellQtyTotal = sellQtyTotal + addQty
     }
     let x = 0
-    if(sellQuantity === condBuys[x].quantity){
+    if(sellQtyTotal === condBuys[x].quantity){
         condBuys.splice(x, 1)
+            console.log('sell equaled first buy')
             return condBuys
-    }else if(sellQuantity < condBuys[x].quantity){
-        let remQuant = condBuys[x].quantity - sellQuantity 
-        condBuys[x].quantity = remQuant
+    }else if(sellQtyTotal < condBuys[x].quantity){
+        let remQty = condBuys[x].quantity - sellQtyTotal 
+        condBuys[x].quantity = remQty
+            console.log('sell was less than first buy')
             return condBuys
-    }else if(sellQuantity > condBuys[x].quantity){
-        let y = x + 1
-        let quantSum = condBuys[x].quantity + condBuys[y].quantity
-        if(sellQuantity < quantSum){
+    }
+    else if(sellQtyTotal > condBuys[x].quantity){
+        let y = 0
+        let qtySum = condBuys[x].quantity + condBuys[y].quantity
+        console.log('qtySum')
+        console.log(qtySum)
+        if(sellQtyTotal < qtySum){
+            console.log(qtySum)
             y++
-            quantSum = quantSum + condBuys[y].quantity
+            sellQtyTotal = sellQtyTotal - condBuys[y].quantity
+            console.log('sellQtyTotal')
+            console.log(sellQtyTotal)
+        }else if(sellQtyTotal > qtySum){
+            console.log('sell exceeded portfolio')
+            return false
         }
-        let remQuant = quantSum - sellQuantity
-        condBuys[y].quantity = remQuant
+        let remQty = condBuys[y].quantity + sellQtyTotal
+        console.log('remQty')
+        console.log(remQty)
+        condBuys[y].quantity = remQty
         condBuys.splice(0, y)
+            console.log('sell required multiple buy lots')
             return condBuys
     }
 }
@@ -219,13 +236,11 @@ console.log(formatOutput())
 //template for stdout
 // process.stdout.write(formatOutput())
 
-//*************************************************************************************************
-
-
 
 //need error handler
 
 //need tests
+
 
 
 module.exports = {

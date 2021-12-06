@@ -3,8 +3,11 @@
 
 This program will take a set of hardcoded data and process the accounting for a sell order on a First in First Out or Highest in First Out basis.
 
+After cloning the repository navigate to the program directory and run the following in the terminal
+$ npm i
+
 to run the automatic tests from the terminal:
-$ npm run tests
+$ npm run test
 
 The compile the file as an executable:
 

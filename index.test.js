@@ -4,6 +4,8 @@ const testBuys = [{id:1, date:20211201, price:1000, type:'buy', quantity:1 },
 {id:2, date:20211201, price:1200, type:'buy', quantity:1 },
 {id:3, date:20211202, price:5000, type:'buy', quantity:1 }]
 
+const testSells = [{id:4, date: 20211205, price:6969, type:'sell', quantity: 10}]
+
 const expectCondense = [{id:1, date:20211201, price:1100, type:'buy', quantity:2},
 {id:3, date:20211202, price:5000, type:'buy', quantity:1 }]
 
@@ -26,9 +28,43 @@ describe('check that a new lot is given a sequential id', ()=>{
     })
 })
 
+//fix this test
 describe('sell order cannot exceed cummulative bought value', ()=>{
+    test('give bad HIFO sell order', ()=>{
+        condBuys = utils.condenseDuplicates(testBuys)
+        condSells = utils.condenseDuplicates(testSells)
+        expect(utils.sellOrder('price')).toBe(false)
+    })
+})
+//do this above test for FIFO
+
+
+describe('FIFO tests', ()=>{
+    test('Sell less than first buy lot', ()=>{
+
+    })
+    test('Sell equal to first buy lot', ()=>{
+
+    })
+    test('Sell greater than first buy lot', ()=>{
+
+    })
+})
+
+describe('HIFO tests', ()=>{
+    test('Sell less than first buy lot', ()=>{
+
+    })
+    test('Sell equal to first buy lot', ()=>{
+
+    })
+    test('Sell greater than first buy lot', ()=>{
+
+    })
 
 })
+
+
 
 describe('buy or sell orders on the same date are condensed to one lot', ()=>{
     test('2 buy orders from the same date are condensed to one order', ()=>{
@@ -41,15 +77,15 @@ describe('buy or sell orders on the same date are condensed to one lot', ()=>{
 
 describe('process argument designates HIFO or FIFO', ()=>{
     test('checks if process.argv has been assigned a value', ()=>{
-     
+     expect(process.argv).toContain('node')
     })
     test('checks if process.argv is either HIFO or FIFO', ()=>{
-
+    expect(process.argv).toContain('HIFO'|| 'FIFO')
     })
 
 })
 
-describe('HIFO and FIFO', ()=>{
+describe('HIFO and FIFO takes from correct Buy lot', ()=>{
     test('HIFO removes highest price lot first', ()=>{
 
     })
@@ -58,6 +94,3 @@ describe('HIFO and FIFO', ()=>{
     })
 })
 
-describe('sells successfully carry over to successive lots if quantity exceeds first lot chosen',()=>{
-
-})
