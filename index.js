@@ -67,6 +67,9 @@ const order5 = new Lot(20211125, 500, 'buy', 1)
 const buys = [order1, order2, order4, order5]
 const sells = [order3]
 
+console.log(order2)
+console.log(order5)
+
 
 // console.log(buys)
 // console.log(sells)
@@ -148,10 +151,8 @@ let condBuys = condenseDuplicates(buys)
 let condSells = condenseDuplicates(sells)
 
 const sellOrder = (accountingMethod)=>{
-    if(accountingMethod === 'price'){
+    if( accountingMethod === 'price'){
         condBuys.sort((a, b) => b.price - a.price)
-        console.log('sorted by price')
-        console.log(condBuys)
     }else if( accountingMethod === 'date'){
         condBuys.sort((a, b) => a.date - b.date)
     }
@@ -174,25 +175,26 @@ const sellOrder = (accountingMethod)=>{
     else if(sellQtyTotal > condBuys[x].quantity){
         let y = 0
         let qtySum = condBuys[x].quantity + condBuys[y].quantity
-        console.log('qtySum')
-        console.log(qtySum)
+        // console.log('qtySum')
+        // console.log(qtySum)
         if(sellQtyTotal < qtySum){
-            console.log(qtySum)
             y++
             sellQtyTotal = sellQtyTotal - condBuys[y].quantity
-            console.log('sellQtyTotal')
-            console.log(sellQtyTotal)
+            // console.log('sellQtyTotal')
+            // console.log(sellQtyTotal)
         }else if(sellQtyTotal > qtySum){
             console.log('sell exceeded portfolio')
             return false
         }
         let remQty = condBuys[y].quantity + sellQtyTotal
-        console.log('remQty')
-        console.log(remQty)
+        // console.log('remQty')
+        // console.log(remQty)
         condBuys[y].quantity = remQty
         condBuys.splice(0, y)
             console.log('sell required multiple buy lots')
             return condBuys
+    }else{
+        throw new Error("Accounting method not specified")
     }
 }
 
@@ -210,11 +212,10 @@ if(check.includes("HIFO") || check.includes("hifo")){
     return sellOrder('date')
 }else{
 
-    return console.log('log error for incompatible argument')
+    throw new Error("Incompatible accounting method give")
 }
 
 }
-
 
 
 const formatOutput =()=>{
@@ -229,7 +230,6 @@ const formatOutput =()=>{
 
         return output
 }
-
 
 console.log(formatOutput())
 
@@ -249,7 +249,9 @@ module.exports = {
     hifoOrFifo,
     sellOrder,
     condenseDuplicates,
-    genId,
     buys,
     sells,
+    accountingChecker,
+    condBuys,
+    condSells,
 }
