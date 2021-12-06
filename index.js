@@ -15,15 +15,6 @@
 
 
 
-
-// const rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout,
-//     terminal: false
-//     })
-
-
-
 //************************************************************
 //build out with dummy data until stdin problem is solved
 //************************************************************
@@ -67,12 +58,6 @@ const order5 = new Lot(20211125, 500, 'buy', 1)
 const buys = [order1, order2, order4, order5]
 const sells = [order3]
 
-console.log(order2)
-console.log(order5)
-
-
-// console.log(buys)
-// console.log(sells)
 
 
 
@@ -235,12 +220,6 @@ console.log(formatOutput())
 
 //template for stdout
 // process.stdout.write(formatOutput())
-
-
-//need error handler
-
-//need tests
-
 
 
 module.exports = {
